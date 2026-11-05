@@ -1,0 +1,13 @@
+# Fichiers de compilation
+build/
+compile_commands.json
+
+# Fichiers temporaires
+*.o
+*.a
+*.so
+
+# Fichiers système
+*~
+.DS_Store
+.cache/
