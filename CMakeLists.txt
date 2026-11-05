@@ -33,7 +33,11 @@ if(UIN_ACTIVER_SANITIZERS AND NOT MSVC)
     )
 endif()
 
-add_library(uincampus_core src/version.cpp)
+add_library(uincampus_core
+    src/version.cpp
+    src/regles.cpp
+    src/saisie.cpp
+)
 
 target_include_directories(uincampus_core PUBLIC
     ${PROJECT_SOURCE_DIR}/include
