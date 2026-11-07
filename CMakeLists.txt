@@ -63,3 +63,10 @@ target_link_libraries(uin-campus-tp3 PRIVATE
     uincampus_core
     uincampus_options
 )
+
+add_executable(uin-campus-releve app/releve.cpp)
+
+target_link_libraries(uin-campus-releve PRIVATE
+    uincampus_core
+    uincampus_options
+)
