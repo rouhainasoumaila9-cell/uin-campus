@@ -1,11 +1,59 @@
 #include "uincampus/saisie.hpp"
 #include "uincampus/regles.hpp"
 
+#include <cmath>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <string_view>
 
 namespace uin {
+
+namespace {
+
+struct EntierLu {
+    bool valide;
+    int valeur;
+};
+
+struct ReelLu {
+    bool valide;
+    double valeur;
+};
+
+[[nodiscard]] EntierLu versEntier(std::string_view ligne)
+{
+    std::istringstream flux{std::string(ligne)};
+    int valeur{};
+    char reste{};
+
+    if (!(flux >> valeur) || (flux >> reste)) {
+        return {false, 0};
+    }
+
+    return {true, valeur};
+}
+
+[[nodiscard]] ReelLu versReel(std::string ligne)
+{
+    for (char& caractere : ligne) {
+        if (caractere == ',') {
+            caractere = '.';
+        }
+    }
+
+    std::istringstream flux{ligne};
+    double valeur{};
+    char reste{};
+
+    if (!(flux >> valeur) || (flux >> reste) || !std::isfinite(valeur)) {
+        return {false, 0.0};
+    }
+
+    return {true, valeur};
+}
+
+} // namespace
 
 int lireEntier(std::string_view invite, int minimum, int maximum)
 {
@@ -17,11 +65,9 @@ int lireEntier(std::string_view invite, int minimum, int maximum)
             return minimum;
         }
 
-        std::istringstream flux{ligne};
-        int valeur{};
-        char reste{};
+        const auto [valide, valeur] = versEntier(ligne);
 
-        if (!(flux >> valeur) || (flux >> reste)) {
+        if (!valide) {
             std::cout << "Saisie invalide.\n";
         } else if (valeur < minimum || valeur > maximum) {
             std::cout << "Valeur comprise entre "
@@ -42,17 +88,9 @@ double lireNote(std::string_view invite)
             return noteMin;
         }
 
-        for (char& caractere : ligne) {
-            if (caractere == ',') {
-                caractere = '.';
-            }
-        }
+        const auto [valide, note] = versReel(ligne);
 
-        std::istringstream flux{ligne};
-        double note{};
-        char reste{};
-
-        if (!(flux >> note) || (flux >> reste)) {
+        if (!valide) {
             std::cout << "Saisie invalide.\n";
         } else if (note < noteMin || note > noteMax) {
             std::cout << "La note doit être comprise entre 0 et 20.\n";

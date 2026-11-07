@@ -37,6 +37,7 @@ add_library(uincampus_core
     src/version.cpp
     src/regles.cpp
     src/saisie.cpp
+    src/calculs.cpp
 )
 
 target_include_directories(uincampus_core PUBLIC
@@ -52,6 +53,13 @@ target_link_libraries(uincampus_core PRIVATE uincampus_options)
 add_executable(uin-campus app/main.cpp)
 
 target_link_libraries(uin-campus PRIVATE
+    uincampus_core
+    uincampus_options
+)
+
+add_executable(uin-campus-tp3 app/tp3.cpp)
+
+target_link_libraries(uin-campus-tp3 PRIVATE
     uincampus_core
     uincampus_options
 )
