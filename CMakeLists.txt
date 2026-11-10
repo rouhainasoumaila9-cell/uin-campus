@@ -70,3 +70,9 @@ target_link_libraries(uin-campus-releve PRIVATE
     uincampus_core
     uincampus_options
 )
+add_executable(uin-campus-carnet app/carnet.cpp)
+
+target_link_libraries(uin-campus-carnet PRIVATE
+    uincampus_core
+    uincampus_options
+)
